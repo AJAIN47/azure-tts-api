@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Text-to-Speech Test</title>
+</head>
+<body>
+    <h1>Text-to-Speech API Test</h1>
+    <textarea id="text-input" rows="4" cols="50" placeholder="Enter text to convert to speech"></textarea><br><br>
+    <button onclick="convertTextToSpeech()">Convert Text to Speech</button>
+
+    <audio id="audio-player" controls></audio>
+
+    <script>
+        async function convertTextToSpeech() {
+            const text = document.getElementById('text-input').value;
+
+            if (!text) {
+                alert('Please enter text.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3005/api/tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text }),
+                });
+
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audioPlayer = document.getElementById('audio-player');
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.play();
+                } else {
+                    const errorData = await response.json();
+                    alert('Error: ' + errorData.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was an error with the request.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -5,6 +5,9 @@ require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
+const cors = require('cors');
+app.use(cors());
+app.use(express.static('public'));
 
 const AZURE_API_KEY = process.env.AZURE_API_KEY;
 const AZURE_REGION = process.env.AZURE_REGION;

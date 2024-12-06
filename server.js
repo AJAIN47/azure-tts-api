@@ -1,10 +1,13 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger'); // Import the swagger configuration
 require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.json());  // Add this to parse JSON bodies
 const cors = require('cors');
 app.use(cors());
 app.use(express.static('public'));
@@ -26,7 +29,56 @@ const voices = {
     // Add more languages and voices as needed
 };
 
-// Endpoint for Text-to-Speech
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+/**
+ * @swagger
+ * /api/tts:
+ *   post:
+ *     summary: Convert text to speech
+ *     description: Converts the given text into speech using Azure Text-to-Speech API.
+ *     tags:
+ *       - Text to Speech
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - audio/wav
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: Input data for text-to-speech conversion.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             text:
+ *               type: string
+ *               description: The text to convert to speech.
+ *               example: "Hello, this is a text-to-speech conversion."
+ *             language:
+ *               type: string
+ *               description: The language code for the text-to-speech conversion.
+ *               example: "en-US"
+ *             gender:
+ *               type: string
+ *               description: The gender of the voice.
+ *               enum:
+ *                 - male
+ *                 - female
+ *               example: "female"
+ *     responses:
+ *       200:
+ *         description: Audio file created successfully. 
+ *         content:
+ *           audio/wav:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Bad Request - Missing or invalid input parameters.
+ *       500:
+ *         description: Internal Server Error - Conversion failed due to server issues.
+ */
 app.post('/api/tts', async (req, res) => {
     const { text, language, gender } = req.body;
     console.log(text, language, gender);

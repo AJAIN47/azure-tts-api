@@ -8,13 +8,29 @@
 <body>
     <h1>Text-to-Speech API Test</h1>
     <textarea id="text-input" rows="4" cols="50" placeholder="Enter text to convert to speech"></textarea><br><br>
+    <!-- Dropdown for Language Selection -->
+    <label for="language-select">Select Language:</label>
+    <select id="language-select">
+        <option value="en-US">English (US)</option>
+        <option value="es-ES">Spanish (Spain)</option>
+        <!-- Add more languages as needed -->
+    </select><br><br>
+
+    <!-- Dropdown for Gender Selection -->
+    <label for="gender-select">Select Gender:</label>
+    <select id="gender-select">
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+    </select><br><br>
+
     <button onclick="convertTextToSpeech()">Convert Text to Speech</button>
-
-    <audio id="audio-player" controls></audio>
-
+    <div style="margin-top: 25px";><audio id="audio-player" controls></audio></div>
+    
     <script>
         async function convertTextToSpeech() {
             const text = document.getElementById('text-input').value;
+            const language = document.getElementById('language-select').value;
+            const gender = document.getElementById('gender-select').value;
 
             if (!text) {
                 alert('Please enter text.');
@@ -22,12 +38,13 @@
             }
 
             try {
-                const response = await fetch('http://localhost:3005/api/tts', {
+                console.log(text, gender, language);
+                const response = await fetch('http://107.170.77.200:3005/api/tts', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ text }),
+                    body: JSON.stringify({ text, language, gender }),
                 });
 
                 if (response.ok) {

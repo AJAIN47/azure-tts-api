@@ -24,7 +24,7 @@ System Integration (ITIS-6177) Final Project: Text-to-Speech Using Azure Cogniti
 ## Introduction
 This project demonstrates the integration of Azure AI Speech with a RESTful API, enabling the conversion of text to speech in real-time. The API is designed to provide a simple and efficient interface for converting text into audio for applications that require voice synthesis capabilities.
 
-With support for multiple languages and voices, this project ensures high-quality, natural-sounding audio outputs.
+With support for multiple languages(English and Spanish) and voices(Male and Female), this project ensures high-quality, natural-sounding audio outputs.
 
 ## Features
 - Multi-language support with authentic accents.
@@ -207,6 +207,7 @@ Your application should now be deployed on DigitalOcean!
 Interactive API documentation is available at: [Swagger Documentation](http://107.170.77.200:3005/api-docs/).
 
 ![Swagger Screenshot](./images/swagger-1.png)
+
 ![Swagger Screenshot](./images/swagger-2.png)
 
 #### Postman Testing
@@ -222,7 +223,7 @@ Interactive API documentation is available at: [Swagger Documentation](http://10
     "gender": "male"
     }
 - **text**: The text you want to convert to speech.
-- **language**: The language of the speech (e.g., "en" for English, "es" for Spanish).
+- **language**: The language of the speech (e.g., "en-US" for English, "es-ES" for Spanish).
 - **gender**: The gender of the voice (e.g., "male", "female").
 
 4. Send the request. Save the response as an audio file.
@@ -240,7 +241,10 @@ For further assistance, refer to [Azure Cognitive Services Documentation](https:
 
 Here is an example screenshot of the Postman API in action:
 
-![Text-to-Speech Screenshot](./images/Postman.png)
+![Text-to-Speech Screenshot](./images/Postman-1.png)
+
+![Text-to-Speech Screenshot](./images/Postman-2.png)
+
 
 The response will be an audio file containing the speech generated from the input text.
 I have pushed a sample audio file in the git repo, feel free to check it out, the file will be named **Alish_output_sample.wav**
